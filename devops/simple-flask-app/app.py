@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import text
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///example.db'
@@ -31,6 +32,19 @@ def items():
     items = Item.query.all()
     return jsonify([{"id": item.id, "name": item.name} for item in items])
 
+@app.route('/healthz')
+def healthz():
+    return jsonify({"status": "ok"}), 200
+
+@app.route('/ready')
+def ready():
+    try:
+        db.session.execute(text("SELECT 1"))
+        return jsonify({"status": "ready"}), 200
+    except Exception as e:
+        print(f"Readiness check failed: {e}")
+        return jsonify({"status": "not ready", "error": str(e)}), 503
+
 # Run the app
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0")

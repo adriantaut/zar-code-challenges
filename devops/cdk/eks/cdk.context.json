@@ -1,0 +1,46 @@
+{
+  "vpc-provider:account=950256666252:filter.tag:Name=zar-code-challenges-vpc:region=eu-west-1:returnAsymmetricSubnets=true": {
+    "vpcId": "vpc-0e53f71f731dfe38f",
+    "vpcCidrBlock": "10.0.0.0/16",
+    "ownerAccountId": "950256666252",
+    "availabilityZones": [],
+    "subnetGroups": [
+      {
+        "name": "Private",
+        "type": "Private",
+        "subnets": [
+          {
+            "subnetId": "subnet-000b0433652fb9f9d",
+            "cidr": "10.0.4.0/22",
+            "availabilityZone": "eu-west-1a",
+            "routeTableId": "rtb-084bbe6e4f78a568a"
+          },
+          {
+            "subnetId": "subnet-08a5cbe8847914678",
+            "cidr": "10.0.8.0/22",
+            "availabilityZone": "eu-west-1b",
+            "routeTableId": "rtb-09b62cea17436f7d0"
+          }
+        ]
+      },
+      {
+        "name": "Public",
+        "type": "Public",
+        "subnets": [
+          {
+            "subnetId": "subnet-042f2fa243cc84389",
+            "cidr": "10.0.0.0/24",
+            "availabilityZone": "eu-west-1a",
+            "routeTableId": "rtb-0abc3aefa04d9bd99"
+          },
+          {
+            "subnetId": "subnet-0d5e1992d21978ba6",
+            "cidr": "10.0.1.0/24",
+            "availabilityZone": "eu-west-1b",
+            "routeTableId": "rtb-01f96507350090856"
+          }
+        ]
+      }
+    ]
+  }
+}

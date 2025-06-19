@@ -1,0 +1,46 @@
+name: Infrastructure Diff
+
+on:
+  workflow_dispatch: {}
+
+env:
+  ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+  ECR_REPO_NAME: zar-code-challenges-flask-app
+  IMAGE_NAME: flask-app
+  IMAGE_TAG: ${{ github.sha }}
+
+permissions:
+  id-token: write # This is required for requesting the JWT
+  contents: read  # This is required for actions/checkout
+
+jobs:
+  cdk-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '24'
+      
+      - name: Install dependencies
+        run: |
+          cd devops/cdk/eks
+          npm install
+          npm run build
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT }}:role/GithubOidcRole
+          role-session-name: GitHub_to_AWS_via_FederatedOIDC
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: CDK deploy
+        run: |
+          IMAGE_URI=$ECR_REGISTRY/$ECR_REPO_NAME
+          FULL_IMAGE_URI=$IMAGE_URI:$IMAGE_TAG
+          cd devops/cdk/eks
+          npx cdk deploy
