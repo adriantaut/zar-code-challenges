@@ -1,4 +1,4 @@
-name: Infrastructure Diff
+name: EKS Deploy
 
 on:
   workflow_dispatch: {}

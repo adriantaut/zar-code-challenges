@@ -1,4 +1,4 @@
-name: Infrastructure Diff
+name: EKS Diff
 
 on:
   push:

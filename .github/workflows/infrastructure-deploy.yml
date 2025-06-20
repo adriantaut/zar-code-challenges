@@ -1,4 +1,4 @@
-name: Infrastructure Diff
+name: Infrastructure Deploy
 
 on:
   workflow_dispatch: {}
